@@ -3,10 +3,10 @@ email: your-email@example.com
 description: >-
   Welcome to my blog! Here I share my thoughts and experiences.
 baseurl: "/blog" # 仓库名称
-url: "https://your-github-username.github.io" # 替换为您的 GitHub Pages URL
+url: "https://geyu210.github.io" # 替换为您的 GitHub Pages URL
 
 # 社交链接
-github_username: your-github-username
+github_username: geyu210
 
 # 构建设置
 markdown: GFM
