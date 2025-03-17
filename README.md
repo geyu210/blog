@@ -1,6 +1,13 @@
 # 我的博客
 
-这是我的个人博客，使用 Jekyll 构建并托管在 GitHub Pages 上。
+这是我的个人博客，使用 Jekyll 构建并托管在 GitHub Pages 上。博客已成功部署，可通过 https://geyu210.github.io/blog 访问。
+
+## 博客特点
+
+- 简洁美观的 Minima 主题
+- 支持 Markdown 格式的文章
+- 文章分类和标签功能
+- 自动构建和部署
 
 ## 本地开发
 
@@ -28,13 +35,19 @@
 layout: post
 title: "文章标题"
 date: YYYY-MM-DD HH:MM:SS +0800
-categories: [分类]
+categories: [分类1, 分类2]
+tags: [标签1, 标签2]
 ---
 ```
 
 ## 部署
 
-这个博客使用 GitHub Pages 自动部署。当你推送更改到 main 分支时，GitHub Actions 会自动构建并部署你的博客。
+这个博客使用 GitHub Pages 自动部署。当你推送更改到 main 分支时，GitHub Actions 会自动构建并部署你的博客。部署通常在几分钟内完成。
+
+## 项目文档
+
+- [AI项目参考文档](PROJECT_ARCHITECTURE.md) - 为AI助手提供的详细项目结构、数据流和操作指南
+- [博客文章管理指南](BLOG_POST_GUIDE.md) - 如何创建和管理博客文章
 
 ## 许可证
 
