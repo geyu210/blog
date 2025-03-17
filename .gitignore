@@ -142,7 +142,6 @@ _site/
 .jekyll-metadata
 .bundle/
 vendor/
-.ruby-version
 .ruby-gemset
 
 # 系统文件
