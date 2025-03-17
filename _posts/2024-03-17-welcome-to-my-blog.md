@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "欢迎来到我的博客"
+title:  "欢迎"
 date:   2024-03-17 12:00:00 +0800
 categories: blog
 ---
