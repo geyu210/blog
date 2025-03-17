@@ -1,5 +1,4 @@
 title: My Blog
-email: your-email@example.com
 description: >-
   Welcome to my blog! Here I share my thoughts and experiences.
 baseurl: "/blog" # 仓库名称
@@ -9,7 +8,6 @@ url: "https://geyu210.github.io" # 替换为您的 GitHub Pages URL
 github_username: geyu210
 
 # 构建设置
-markdown: GFM
 theme: minima
 plugins:
   - jekyll-feed
@@ -25,8 +23,4 @@ paginate_path: "/page:num/"
 exclude:
   - Gemfile
   - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/ 
+  - vendor/ 
