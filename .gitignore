@@ -134,3 +134,48 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Jekyll 相关
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+.ruby-version
+.ruby-gemset
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器文件
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 依赖目录
+node_modules/
+bower_components/
+
+# 环境文件
+.env
+.env.local
+.env.*.local
+
+# 构建输出
+dist/
+build/
+out/
+
+# 缓存文件
+.cache/
+.temp/
+.tmp/
