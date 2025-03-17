@@ -6,11 +6,12 @@
 - **仓库位置**: GitHub - blog
 - **部署状态**: 已成功部署
 - **访问地址**: https://geyu210.github.io/blog
-- **版本**: 1.0.0
+- **Jekyll版本**: 3.10.0 (GitHub Pages v232)
+- **主题版本**: minima 2.5.1
 - **最后更新**: 2024-03-17
 
 ## 项目概览
-这是一个基于 Jekyll 的静态博客系统，使用 GitHub Pages 进行托管。项目采用 GitHub Pages 默认的 Jekyll 环境，使用 minima 主题，并集成了标准 Jekyll 插件。博客采用 Markdown 格式编写文章，通过 GitHub Actions 自动构建和部署。
+这是一个基于 Jekyll 的静态博客系统，使用 GitHub Pages 进行托管。项目采用 GitHub Pages 默认的 Jekyll 环境(v3.10.0)，使用 minima 主题(v2.5.1)，并集成了标准 Jekyll 插件。博客采用 Markdown 格式编写文章，通过 GitHub Actions 自动构建和部署。
 
 ## 项目目录结构与文件职责
 ```
@@ -24,8 +25,11 @@ blog/                       # 项目根目录
 ├── Gemfile                 # Ruby依赖管理，定义博客所需的Ruby包
 ├── Gemfile.lock            # Ruby依赖版本锁定
 ├── index.md                # 网站首页
+├── assets/                 # 资源文件目录
+│   └── main.scss           # 主样式文件
 ├── PROJECT_ARCHITECTURE.md # AI参考文档（本文件）
 ├── BLOG_POST_GUIDE.md      # 博客文章管理指南
+├── AI_COLLABORATION_GUIDE.md # AI协作指南
 ├── .gitignore              # Git忽略配置
 └── README.md               # 项目说明文档
 ```
@@ -33,8 +37,9 @@ blog/                       # 项目根目录
 ## 核心组件与依赖关系
 
 ### 1. Jekyll 核心
-- **版本**: GitHub Pages 默认版本
-- **主题**: minima (简约博客主题)
+- **版本**: 3.10.0 (GitHub Pages v232)
+- **主题**: minima 2.5.1
+- **主题路径**: /usr/local/bundle/gems/minima-2.5.1
 - **配置文件**: _config.yml
 - **主要功能**: 
   - 静态站点生成
@@ -44,27 +49,42 @@ blog/                       # 项目根目录
 
 ### 2. Jekyll 插件系统
 - **插件配置位置**: _config.yml 和 Gemfile
-- **关键插件**:
-  - `jekyll-feed`: 生成RSS订阅源 (对应文件: /feed.xml)
-  - `jekyll-seo-tag`: 添加SEO元标签 (作用于所有页面)
-  - `jekyll-sitemap`: 生成站点地图 (对应文件: /sitemap.xml)
-  - `jekyll-paginate`: 博客文章分页功能 (作用于首页列表)
+- **核心插件**:
+  - `jekyll-feed`: 生成RSS订阅源
+  - `jekyll-seo-tag`: 添加SEO元标签
+  - `jekyll-sitemap`: 生成站点地图
+  - `jekyll-paginate`: 博客文章分页功能
+- **其他启用的插件**:
+  - `jekyll-coffeescript`: CoffeeScript支持
+  - `jekyll-commonmark-ghpages`: CommonMark支持
+  - `jekyll-gist`: GitHub Gist嵌入支持
+  - `jekyll-github-metadata`: GitHub元数据支持
+  - `jekyll-relative-links`: 相对链接支持
+  - `jekyll-optional-front-matter`: 可选的Front Matter
+  - `jekyll-readme-index`: 自动使用README作为索引
+  - `jekyll-default-layout`: 默认布局支持
+  - `jekyll-titles-from-headings`: 从标题生成页面标题
 
-### 3. 组件依赖图
+### 3. 解析器与处理器
+- `kramdown-parser-gfm`: GitHub风格的Markdown解析器
+
+### 4. 组件依赖图
 ```mermaid
 graph TD
-    A[Jekyll Core] --> B[Minima Theme]
+    A[Jekyll Core v3.10.0] --> B[Minima Theme v2.5.1]
     A --> C[Jekyll Plugins]
-    C --> D[jekyll-feed]
-    C --> E[jekyll-seo-tag]
-    C --> F[jekyll-sitemap]
-    C --> G[jekyll-paginate]
-    B --> H[Layouts]
-    B --> I[Styles]
-    A --> J[Markdown Processor]
-    J --> K[HTML Output]
-    L[GitHub Actions] --> M[Jekyll Build]
-    M --> N[GitHub Pages]
+    A --> D[Kramdown GFM Parser]
+    C --> E[核心插件]
+    C --> F[扩展插件]
+    E --> E1[jekyll-feed]
+    E --> E2[jekyll-seo-tag]
+    E --> E3[jekyll-sitemap]
+    E --> E4[jekyll-paginate]
+    F --> F1[jekyll-github-metadata]
+    F --> F2[jekyll-relative-links]
+    F --> F3[其他辅助插件]
+    G[GitHub Actions] --> H[Jekyll Build]
+    H --> I[GitHub Pages]
 ```
 
 ## 数据流动与处理逻辑
@@ -73,7 +93,8 @@ graph TD
 ```
 Markdown文章(_posts/*.md) 
 → Jekyll解析器(处理Front Matter) 
-→ 主题模板渲染(_layouts/*.html) 
+→ Kramdown GFM解析Markdown
+→ 主题模板渲染(minima主题) 
 → 生成静态HTML 
 → 部署到GitHub Pages
 ```
@@ -107,13 +128,17 @@ description: "网站描述"      # 网站描述，用于SEO
 baseurl: "/blog"           # 子路径，与GitHub仓库名对应
 url: "https://..."         # 完整URL前缀
 theme: minima              # 使用的主题
-plugins: [...]             # 启用的插件列表
+plugins:                   # 启用的插件列表
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
 paginate: 5                # 每页显示的文章数
 ```
 
 ### 2. Gemfile 依赖说明
 ```ruby
-gem "github-pages"         # GitHub Pages兼容环境
+gem "github-pages"         # GitHub Pages兼容环境(v232)
 gem "webrick"              # HTTP服务器（本地开发用）
 ```
 
@@ -139,7 +164,8 @@ tags: [标签1, 标签2]         # 文章标签（可多个）
 ### 2. Markdown 语法支持
 - 标准 Markdown: 标题、段落、列表、链接等
 - GitHub Flavored Markdown: 表格、代码块高亮、任务列表等
-- Jekyll 特有功能: Liquid 模板标签、包含文件等
+- Kramdown GFM: GitHub风格的Markdown扩展语法
+- Jekyll Liquid 语法: 模板标签、条件语句、循环等
 
 ## 开发与维护指南
 
@@ -152,13 +178,13 @@ tags: [标签1, 标签2]         # 文章标签（可多个）
 ### 2. 常见修改场景
 - 添加新文章: 在 `_posts` 目录创建文件
 - 修改主题: 更新 `_config.yml` 中的 theme 值
-- 添加自定义样式: 创建 `assets/css/style.scss` 文件
+- 添加自定义样式: 创建或修改 `assets/main.scss` 文件
 - 添加新页面: 在根目录创建 .md 或 .html 文件
 
 ### 3. 故障排除与调试
 - 构建日志: GitHub Actions 构建日志
 - 本地调试: `bundle exec jekyll build --verbose`
-- 依赖冲突: 检查 Gemfile.lock 版本兼容性
+- 依赖冲突: 注意 GitHub Pages gem 版本限制(v232)
 
 ## AI助手操作指引
 
@@ -169,16 +195,22 @@ tags: [标签1, 标签2]         # 文章标签（可多个）
 ### 2. 常见任务处理流程
 - 创建新文章: 按 `YYYY-MM-DD-title.md` 格式在 `_posts` 目录添加
 - 修改站点配置: 编辑 `_config.yml` 文件
-- 修改页面布局: 需创建 `_layouts` 目录并添加布局文件
-- 添加自定义样式: 需创建 `assets/css` 目录并添加样式文件
+- 修改页面布局: 需理解 minima 2.5.1 主题结构
+- 添加自定义样式: 修改 `assets/main.scss` 文件
 
 ### 3. 资源引用方式
-- 内部链接: `[文本]({% post_url YYYY-MM-DD-title %})`
+- 内部链接: `[文本](/blog/YYYY/MM/DD/title.html)`
 - 图片引用: `![描述](/blog/assets/images/filename.jpg)`
 - 其他页面: `[文本](/blog/page-name/)`
+
+### 4. Liquid语法注意事项
+- 在文档中展示Liquid代码时使用代码块或转义符
+- 避免使用未转义的花括号和百分号组合，如: `{``%` 或 `{``{`
+- 特别注意: 在代码示例中需要转义所有Liquid标签
 
 ## 项目演化计划
 - 添加评论功能
 - 实现自定义主题
 - 增加搜索功能
-- 添加分析统计 
+- 添加分析统计
+- 解决GitHub Pages依赖警告 
